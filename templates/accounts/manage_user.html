@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+        <div class="card mx-auto" style="max-width:600px; margin-bottom:20px;">
+          <article class="card-body">
+            <header class="mb-4"><h4 class="card-title">Manage User</h4></header>
+            <div class="scrollable">
+                {% for info in users_info %}
+                      <div class="card">
+                        <div class="card-body">
+                            <p class="card-text">{{ info.first_name }} {{ info.last_name }} {% if info.is_superadmin %} (Super Adminstrator) {% endif %}</p>
+                            <p class="card-text">{{ info.email }}</p>
+                            {% if user.is_superadmin %}
+                            <a href="{% url 'edit_user' info.id %}">Edit User</a>
+                            {% endif %}
+                        </div>
+                      </div>
+                {% endfor %}
+            </div>
+            </article><!-- card-body.// -->
+        </div> <!-- card .// -->
+
+{% endblock %}

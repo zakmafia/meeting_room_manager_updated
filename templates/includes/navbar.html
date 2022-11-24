@@ -1,0 +1,50 @@
+{% load static %}
+    <div class="wrapper">
+        <!-- Sidebar Holder -->
+        <nav id="sidebar">
+            <div class="sidebar-header text-center">
+                <img src="{% static 'images/hst_logo_design.png'  %}" class="img-fluid rounded">
+                <h5><a href="{% url 'bookings' %}" class="color_a">HST Meeting Room Management System</a></h5>
+            </div>
+            <ul class="list-unstyled components">
+                <li>
+                    <a href="#bookingSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle color_a">Room Booking</a>
+                    <ul class="collapse list-unstyled" id="bookingSubmenu">
+                        {% if user.is_authenticated %}
+                        <li>
+                            <a class="color_a" href="{% url 'bookings' %}">Main Booking Page</a>
+                        </li>
+                        {% endif %}
+                        <li>
+                            <a class="color_a" href="{% url 'create_booking' %}">Quickly Create booking</a>
+                        </li>
+                        {% if user.is_authenticated and user.is_superadmin %}
+                        <li>
+                            <a class="color_a" href="{% url 'add_rooms' %}">Add a room</a>
+                        </li>
+                        <li>
+                            <a class="color_a" href="{% url 'add_available_time' %}">Add available time</a>
+                        </li>
+                        <li>
+                            <a class="color_a" href="{% url 'view_rooms' %}">View and Edit room</a>
+                        </li>
+                        <li>
+                            <a class="color_a" href="{% url 'view_available_times' %}">View and Edit available time</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </li>
+                <li>
+                    <a class="color_a" href="{% url 'about' %}">About</a>
+                </li>
+            </ul>
+        </nav>
+        
+<script>
+    $(document).ready(function(){
+        $('li').click(function() {
+        $("li.active").removeClass("active");
+        $(this).addClass('active');
+});    
+</script>
+        

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!-- ========================= SECTION PAGETOP ========================= -->
+<section class="section">
+    <div class="container">
+        <h2 class="title-page text-center">Available Times</h2>
+    </div> <!-- container //  -->
+    </section>
+    <!-- ========================= SECTION INTRO END// ========================= -->
+    <div class="container">
+    <header class="border-bottom mb-4 pb-3">
+            <div class="form-inline">
+                <span class="mr-md-auto"><b>{{ available_times_count }}</b> available times </span> 
+            </div>
+    </header><!-- sect-heading -->
+    
+    <div class="row">
+        {% for time in available_times %}
+        <div class="col-md-3">
+            <figure class="card card-product-grid">
+                <figcaption class="info-wrap">
+                    <div class="fix-height">
+                        <a href="#" class="title">{{ time.available_time }}</a>
+                    </div>
+                    {% if user.is_superadmin %}
+                    <a href="{% url 'delete_time' time.id %}" class="btn btn-block btn-danger" onclick="return confirm('Are you sure you want to delete this time?')">Delete Time </a>
+                    {% endif %}
+                </figcaption>
+            </figure>
+        </div> <!-- col.// -->
+        {% endfor %}
+    </div>
+    </div> <!-- container .//  -->
+    {% endblock %}
