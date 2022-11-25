@@ -13,8 +13,10 @@ urlpatterns = [
 
     path('create_booking/', views.create_booking, name='create_booking'),
     path('create_booking_from_room/<room_id>/', views.create_booking_from_room, name='create_booking_from_room'),
+    path('my_bookings/', views.my_bookings, name='my_bookings'),
     path('cancel_booking_validate/<uidb64>/<token>/<booking_id>/', views.cancel_booking_validate, name='cancel_booking_validate'),
-    path('cancel_booking_view/', views.cancel_booking_view, name="cancel_booking_view"),
+    path('cancel_booking_view/', views.cancel_booking_view, name='cancel_booking_view'),
     path('cancel_booking/<booking_id>/', views.cancel_booking, name='cancel_booking'),
+    path('cancel_booking_user/<info_id>/', views.cancel_booking_user, name='cancel_booking_user'),
     path('cancel_booking_admin/<info_id>/<room_id>/', views.cancel_booking_admin, name='cancel_booking_admin'),
 ]

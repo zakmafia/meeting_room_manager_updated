@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'bookings' %}">Main Booking Page</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'view_available_times' %}">Available Time</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Add Time</li>
+            </ol>
+        </nav>
         <div class="card mx-auto" style="max-width:300px; margin-bottom:40px;">
           <article class="card-body">
             <header class="mb-4"><h4 class="card-title">Add the Available Time</h4></header>

@@ -3,15 +3,26 @@
 {% block content %}
 <!-- ========================= SECTION PAGETOP ========================= -->
 <section class="section">
-    <div class="container">
-        <h2 class="title-page text-center">Available Rooms</h2>
+    <div class="container row">
+        <div class="col">
+            <h2 class="title-page text-center">Available Rooms</h2>
+        </div>
+        <div class="col">
+            <a class="btn btn-outline-primary" href="{% url 'add_rooms' %}">Add Rooms +</a>
+        </div>
     </div> <!-- container //  -->
     </section>
 
     <div class="container">
     <div class="row">
         <main class="col-md-9">
-    
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'bookings' %}">Main Booking Page</a></li>
+                <li class="breadcrumb-item active" aria-current="page">View Rooms</li>
+            </ol>
+        </nav>
+        <br>
     <header class="border-bottom mb-4 pb-3">
             <div class="form-inline">
                 <span class="mr-md-auto"><b>{{ rooms_count }}</b> rooms found </span>

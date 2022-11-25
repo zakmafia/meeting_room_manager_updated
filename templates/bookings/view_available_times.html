@@ -2,19 +2,31 @@
 {% load static %}
 {% block content %}
 <!-- ========================= SECTION PAGETOP ========================= -->
-<section class="section">
-    <div class="container">
-        <h2 class="title-page text-center">Available Times</h2>
+<section class="section">    
+    <div class="container row">
+        <div class="col">
+            <h2 class="title-page text-center">Available Times</h2>
+        </div>
+        <div class="col">
+            <a class="btn btn-outline-primary" href="{% url 'add_available_time' %}">Add Time +</a>
+        </div>
     </div> <!-- container //  -->
-    </section>
+</section>
     <!-- ========================= SECTION INTRO END// ========================= -->
     <div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'bookings' %}">Main Booking Page</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Available Times</li>
+        </ol>
+    </nav>
+    <br>
     <header class="border-bottom mb-4 pb-3">
             <div class="form-inline">
                 <span class="mr-md-auto"><b>{{ available_times_count }}</b> available times </span> 
             </div>
     </header><!-- sect-heading -->
-    
+
     <div class="row">
         {% for time in available_times %}
         <div class="col-md-3">

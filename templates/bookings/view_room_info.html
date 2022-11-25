@@ -18,10 +18,10 @@
                 </article> <!-- gallery-wrap .end// -->
             </aside>
             <main class="col-md-6 border-left">
-                <div class="text-center" style="margin-top:20px;">
+                <div class="text-center" style="margin-top:10px;">
                     <a href="{% url 'create_booking_from_room' room.id%}" class="btn brn-block btn-primary">Create a Booking +</a>
                 </div>
-                <div class="card mx-auto" style="max-width:520px; margin-top:40px;">
+                <div class="card mx-auto" style="max-width:520px; margin-top:10px;">
                     <article class="card-body">
                       <header class="mb-4 text-center"><h4 class="card-title">{{ room.name }}</h4></header>
                       {% include 'includes/alerts.html' %}
@@ -30,7 +30,6 @@
                       {% endif %}
                       </article>
                 </div>
-                <br>
                 <div class="scrollable">
                 {% for info in meeting_room_booking_info %}
                       <div class="card">

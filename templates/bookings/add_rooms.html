@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'bookings' %}">Main Booking Page</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'view_rooms' %}">View Rooms</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Add a Room</li>
+    </ol>
+</nav>
         <div class="card mx-auto" style="max-width:520px; margin-bottom:40px;">
           <article class="card-body">
             <header class="mb-4"><h4 class="card-title">Add a Meeting Room</h4></header>

@@ -12,24 +12,21 @@
                     <ul class="collapse list-unstyled" id="bookingSubmenu">
                         {% if user.is_authenticated %}
                         <li>
+                            <a class="color_a" href="{% url 'my_bookings' %}">My Bookings</a>
+                        </li>
+                        <li>
                             <a class="color_a" href="{% url 'bookings' %}">Main Booking Page</a>
                         </li>
                         {% endif %}
                         <li>
-                            <a class="color_a" href="{% url 'create_booking' %}">Quickly Create booking</a>
+                            <a class="color_a" href="{% url 'create_booking' %}">Quick Booking</a>
                         </li>
                         {% if user.is_authenticated and user.is_superadmin %}
                         <li>
-                            <a class="color_a" href="{% url 'add_rooms' %}">Add a room</a>
+                            <a class="color_a" href="{% url 'view_rooms' %}">Manage Room</a>
                         </li>
                         <li>
-                            <a class="color_a" href="{% url 'add_available_time' %}">Add available time</a>
-                        </li>
-                        <li>
-                            <a class="color_a" href="{% url 'view_rooms' %}">View and Edit room</a>
-                        </li>
-                        <li>
-                            <a class="color_a" href="{% url 'view_available_times' %}">View and Edit available time</a>
+                            <a class="color_a" href="{% url 'view_available_times' %}">Manage Time</a>
                         </li>
                         {% endif %}
                     </ul>

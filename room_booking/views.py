@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.utils.text import slugify
 from datetime import datetime
+import time
 from .models import Booking, AvailableTime, Room
 from accounts.models import Account
 from .forms import RoomForm, AvailableTimeForm
@@ -16,6 +17,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
 # Create your views here.
 current_year = datetime.now().year
+
 
 # Utility function (time_converter)
 def booking_time_am_pm_converter(booking_time):
@@ -209,6 +211,7 @@ def create_booking(request):
                             'booking_date_from': booking_date_from,
                             'booking_date_to': booking_date_to,
                             'name': name,
+                            'description': description,
                             'booking_id': urlsafe_base64_encode(force_bytes(booking.id)),
                         })
                         to_email = email
@@ -266,6 +269,7 @@ def create_booking(request):
 
 @login_required(login_url='login')
 def create_booking_from_room(request, room_id):
+
     name = ""
     booking_date_val_from = ""
     booking_date_val_to = ""
@@ -332,6 +336,7 @@ def create_booking_from_room(request, room_id):
                         'booking_date_from': booking_date_from,
                         'booking_date_to': booking_date_to,
                         'name': name,
+                        'description': description,
                         'booking_id': urlsafe_base64_encode(force_bytes(booking.id)),
                     })
                     to_email = request.user.email
@@ -359,14 +364,27 @@ def create_booking_from_room(request, room_id):
             parsed_date_to = datetime.strptime(booking_date_to, "%Y-%d-%m").date()
             booking_date_val_from = booking_date_from
             booking_date_val_to = booking_date_to
+            current_time = datetime.now().time()
+            current_time_seconds = (current_time.hour * 60 + current_time.minute) * 60 + current_time.second
+            current_date = datetime.now().date()
             for available_time in available_times:
                 if not Booking.objects.filter(booking_time_from=available_time, booking_date_from=parsed_date_from,booking_date_to=parsed_date_to, room=room):
-                    available_time_list_from.append(available_time)
+                    if current_date == parsed_date_from:
+                        available_time_seconds = (available_time.available_time.hour * 60 + available_time.available_time.minute) * 60 + available_time.available_time.second
+                        if not current_time_seconds > available_time_seconds:
+                            available_time_list_from.append(available_time)
+                    else:
+                        available_time_list_from.append(available_time)
             for available_time in available_times:
                 if not Booking.objects.filter(booking_time_to=available_time, booking_date_from=parsed_date_from,booking_date_to=parsed_date_to, room=room):
-                    available_time_list_to.append(available_time)
-        except:
-            messages.error(request, 'Something went wrong')
+                    if current_date == parsed_date_to:
+                        available_time_seconds = (available_time.available_time.hour * 60 + available_time.available_time.minute) * 60 + available_time.available_time.second
+                        if not current_time_seconds > available_time_seconds:
+                            available_time_list_to.append(available_time)
+                    else:
+                        available_time_list_to.append(available_time)
+        except BaseException as e:
+            messages.error(request, e)
     context = {
         'name': name,
         'room': room,
@@ -377,6 +395,15 @@ def create_booking_from_room(request, room_id):
         'current_year': current_year,
     }
     return render(request, 'bookings/create_booking_from_room.html', context)
+
+@login_required(login_url='login')
+def my_bookings(request):
+    meeting_room_booking_info = Booking.objects.filter(booking_person=request.user)
+    context = {
+        'current_year': current_year,
+        'meeting_room_booking_info': meeting_room_booking_info,
+    }
+    return render(request, 'bookings/my_bookings.html', context)
 
 def cancel_booking_validate(request, uidb64, token, booking_id):
     try:
@@ -408,6 +435,23 @@ def cancel_booking_view(request):
     }
     return render(request, 'bookings/cancel_booking_view.html', context) 
 
+def cancel_booking_user(request, info_id):
+    booking = Booking.objects.get(id=info_id)
+    mail_subject = 'You have successfully cancelled your meeting room booking!'
+    message = render_to_string('bookings/cancelled_booking_email.html', {
+        'user': request.user,
+        'name': booking.name,
+        'room': booking.room,
+        'booking_time_from': booking.booking_time_from,
+        'booking_time_to': booking.booking_time_to,
+        'booking_date_from': booking.booking_date_from,
+        'booking_date_to': booking.booking_date_to,
+        })
+    to_email = request.user.email
+    send_email = EmailMessage(mail_subject, message, to=[to_email])
+    booking.delete()
+    send_email.send()
+    return redirect('my_bookings')
 
 def cancel_booking(request, booking_id):
     try:
